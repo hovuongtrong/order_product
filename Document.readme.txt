@@ -1,0 +1,17 @@
+- API-Gateway: route API, authentication
+  + Spring cloud gateway
+  + VertX
+- Authentication service: manage token, password, ... (JWT)
+- User service: manage user: username, fullname, address, phone, role, ...
+- Product service: manage product, category, ...
+- Order service: manage order
+- Payment service: manage payment, transaction (encryption)
+- Napas Gateway: do transaction with napas
+- Momo Gateway: do transaction with momo
+- Redis cache
+- Database: 
+- Kafka
+- K8s
+- Spring boot
+- Java 11, 17
+- API: REST (openAPI)

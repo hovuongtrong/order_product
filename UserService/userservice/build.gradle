@@ -1,0 +1,63 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath "org.openapitools:openapi-generator-gradle-plugin:6.0.1"
+	}
+}
+plugins {
+	id 'org.springframework.boot' version '2.5.8'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "org.openapi.generator" version '6.0.1'
+}
+apply plugin: 'org.openapi.generator'
+group = 'com.service.user'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.1'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+  	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+task buildUserApi(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "spring"
+    inputSpec = "$rootDir/specs/userservice.yaml".toString()
+	outputDir = "$buildDir/generated".toString()
+    apiPackage = "org.service.user.api"
+    invokerPackage = "org.service.user.invoker"
+    modelPackage = "org.service.user.model"
+	configOptions = [
+        dateLibrary: "java17"
+    ]
+}

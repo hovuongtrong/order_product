@@ -1,0 +1,133 @@
+openapi: "3.0.0"
+info:
+  title: User service
+  description: user service
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      summary: List all users
+      description: ''
+      operationId: listUsers
+      tags:
+        - users
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Add a new user
+      description: ''
+      operationId: addUser
+      tags:
+        - users
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: successful created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: bad request
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: Get a user by user name
+      description: Returns a user
+      operationId: getUserByUsername
+      parameters:
+        - name: username
+          in: path
+          description: username of user to Returns
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: invalid username
+        '404':
+          description: user not found
+    delete:
+      tags:
+        - users
+      summary: Delete a user by username
+      description: ''
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: username of user to Returns
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: successful operation
+        '400':
+          description: invalid username
+        '404':
+          description: user not found
+      
+components:
+  schemas:
+    User:
+      title: a user
+      type: object
+      required:
+        - username
+        - password
+        - status
+        - name
+        - phonenumber
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        status:
+          type: string
+        name:
+          type: string
+        fullname:
+          type: string
+        phonenumber:
+          type: integer
+          format: int64
+        address:
+          type: string
+        role:
+          type: string
+
+    ErrorMessage:
+      title: a error message
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
+
+        
